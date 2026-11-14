@@ -12,7 +12,7 @@ describe('Book API Tests', () => {
         const response = await request(app).get('/api/books/1');
         expect(response.statusCode).toBe(200);
         expect(response.body).toHaveProperty('id', 1);
-        expect(respopnse.body).toHaveProperty('title');
+        expect(response.body).toHaveProperty('title');
     });
     test('should return 404 for non-existent book', async () => {
         const response = await request(app).get('/api/books/999');
@@ -33,4 +33,18 @@ describe('Book API Tests', () => {
         expect(response.body).toHaveProperty('id');
         expect(response.body.title).toBe('The Hobbit');
     });
+    // PUT tests
+    test('should update existing book', async () => {
+    const updatedBook = {
+        title: "The Hobbit",
+        author: "J.R.R. Tolkien",
+        year: 1994,
+        genre: "Fantasy"
+    };
+
+    const response = await request(app).put('/api/books/4').send(updatedBook);
+  
+    expect(response.status).toBe(200);
+    expect(response.body.genre).toBe('Fantasy');
+});
 });
