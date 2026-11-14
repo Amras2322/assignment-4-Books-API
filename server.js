@@ -60,6 +60,23 @@ app.get('/api/books/:id', (req, res) => {
     }
 });
 
+// POST /api/books - Add a new book
+app.post('/api/books', (req, res) => {
+    const { title, author, genre, copiesAvailable } = req.body;
+
+    const newBook = {
+        id: books.length + 1,
+        title,
+        author,
+        genre,
+        copiesAvailable
+    };
+
+    books.push(newBook);
+
+    res.status(201).json(newBook);
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`Books API server running at http://localhost:${port}`);
