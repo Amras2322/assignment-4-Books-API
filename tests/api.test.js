@@ -35,16 +35,23 @@ describe('Book API Tests', () => {
     });
     // PUT tests
     test('should update existing book', async () => {
-    const updatedBook = {
-        title: "The Hobbit",
-        author: "J.R.R. Tolkien",
-        year: 1994,
-        genre: "Fantasy"
-    };
+        const updatedBook = {
+            title: "The Hobbit",
+            author: "J.R.R. Tolkien",
+            year: 1994,
+            genre: "Fantasy"
+        };
 
-    const response = await request(app).put('/api/books/4').send(updatedBook);
-  
-    expect(response.status).toBe(200);
-    expect(response.body.genre).toBe('Fantasy');
-});
+        const response = await request(app).put('/api/books/4').send(updatedBook);
+    
+        expect(response.status).toBe(200);
+        expect(response.body.genre).toBe('Fantasy');
+    });
+    // DELETE tests
+    test('should delete existing book', async () => {
+        const response = await request(app).delete('/api/books/4');
+
+        expect(response.status).toBe(200);
+        expect(response.body).toHaveProperty('message');
+    });
 });
