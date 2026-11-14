@@ -77,6 +77,28 @@ app.post('/api/books', (req, res) => {
     res.status(201).json(newBook);
 });
 
+// PUT /api/books/:id - Update an existing book
+app.put('/api/books/:id', (req, res) => {
+    const bookId = parseInt(req.params.id);
+    const { title, author, genre, copiesAvailable } = req.body;
+
+    //Find the book to update
+    const bookIndex = books.findIndex((b) => b.id === bookId);
+
+    if (bookIndex === -1) {
+        return res.status(404).json({error: 'Book not found'})
+    }
+    //Update the book
+    books[bookIndex] = {
+        id: bookId,
+        title,
+        author,
+        genre,
+        copiesAvailable
+    };
+    res.json(books[bookIndex]);
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`Books API server running at http://localhost:${port}`);
