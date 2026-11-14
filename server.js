@@ -1,3 +1,10 @@
+const express = require('express');
+
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+
 // Books for bookstore API
 let books = [
     {
@@ -32,13 +39,7 @@ let books = [
     'DELETE /api/books/:id': 'Delete a book'
 */
 
-
-
-
-
-
-
-
-
-
-
+// Start the server
+app.listen(port, () => {
+    console.log(`Books API server running at http://localhost:${port}`);
+});
