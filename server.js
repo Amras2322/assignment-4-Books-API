@@ -57,6 +57,10 @@ app.get('/api/books/:id', (req, res) => {
 app.post('/api/books', (req, res) => {
     const { title, author, genre, copiesAvailable } = req.body;
 
+    if (!title || !author) {
+        return res.status(400).json({ error: 'Title and author are required' });
+    }
+
     const newBook = {
         id: books.length + 1,
         title,
@@ -81,15 +85,20 @@ app.put('/api/books/:id', (req, res) => {
     if (bookIndex === -1) {
         return res.status(404).json({error: 'Book not found'})
     }
-    //Update the book
-    books[bookIndex] = {
-        id: bookId,
-        title,
-        author,
-        genre,
-        copiesAvailable
-    };
-    res.json(books[bookIndex]);
+
+    // Reject empty update bodies
+    if ([title, author, genre, copiesAvailable].every((value) => value === undefined)) {
+        return res.status(400).json({ error: 'No valid fields provided for update' });
+    }
+
+    // Partially update only the fields that were provided
+    const book = books[bookIndex];
+    if (title !== undefined) book.title = title;
+    if (author !== undefined) book.author = author;
+    if (genre !== undefined) book.genre = genre;
+    if (copiesAvailable !== undefined) book.copiesAvailable = copiesAvailable;
+
+    res.json(book);
 });
 
 // DELETE /api/books/:id - Remove a book
