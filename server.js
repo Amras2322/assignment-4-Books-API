@@ -99,6 +99,20 @@ app.put('/api/books/:id', (req, res) => {
     res.json(books[bookIndex]);
 });
 
+// DELETE /api/books/:id - Remove a book
+app.delete('/api/books/:id', (req, res) => {
+    const bookId = parseInt(req.params.id);
+    const bookIndex = books.findIndex((b) => b.id === bookId);
+
+    if (bookIndex === -1) {
+        return res.status(404).json({ error: 'Book not found' });
+    }
+
+    const deletedBook = books.splice(bookIndex, 1)[0];
+
+    res.json({ message: 'Book deleted successfully', book: deletedBook });
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`Books API server running at http://localhost:${port}`);
