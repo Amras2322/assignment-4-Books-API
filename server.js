@@ -31,13 +31,6 @@ let books = [
     // Add more books if you'd like!
 ];
 
-/* Create your REST API here with the following endpoints:
-    'GET /api/books': 'Get all books',
-    'GET /api/books/:id': 'Get a specific book',
-    'POST /api/books': 'Add a new book',
-    'PUT /api/books/:id': 'Update a book',
-    'DELETE /api/books/:id': 'Delete a book'
-*/
 // GET / - Welcome Message
 app.get('/', (req, res) => {
     res.send('Books API server running!');
@@ -113,7 +106,11 @@ app.delete('/api/books/:id', (req, res) => {
     res.json({ message: 'Book deleted successfully', book: deletedBook });
 });
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Books API server running at http://localhost:${port}`);
-});
+// Only start server when running directly, not when testing
+if (require.main === module) {
+    app.listen(port, () => {
+         console.log(`Books API server running at http://localhost:${port}`);
+    });
+}
+
+module.exports = app;
