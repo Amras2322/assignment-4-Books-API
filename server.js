@@ -38,6 +38,27 @@ let books = [
     'PUT /api/books/:id': 'Update a book',
     'DELETE /api/books/:id': 'Delete a book'
 */
+// GET / - Welcome Message
+app.get('/', (req, res) => {
+    res.send('Books API server running!');
+})
+
+// GET /api/books - Retrieve all books
+app.get('/api/books', (req, res) => {
+    res.json(books);
+});
+
+// GET /api/books/:id - Retrieve a specific book by ID
+app.get('/api/books/:id', (req, res) => {
+    const bookId = parseInt(req.params.id);
+    const book = books.find((b) => b.id === bookId);
+
+    if (book) {
+        res.json(book);
+    }else {
+        res.status(404).json({error: 'Book not found'});
+    }
+});
 
 // Start the server
 app.listen(port, () => {
